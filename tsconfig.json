@@ -4,10 +4,12 @@
     "module": "commonjs",
     "lib": ["esnext"],
     "outDir": "./lib",
+    "declaration": true,
     "strict": false,
     "esModuleInterop": true,
     "baseUrl": "./src",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "rootDirs": ["src", "lib/vendor"]
   },
   "include": ["./src/**/*"],
   "exclude": ["./node_modules", "./lib", "./test/rules/**/*", "./tools"]

@@ -2,7 +2,7 @@ import {ServerResponse} from "microrouter";
 import {RequestHandler, send} from "micro";
 import {IncomingMessage} from "http";
 
-import {error, LoadLock} from "./";
+import {error, LoadLock, setting} from "./";
 
 const redirect = require("micro-redirect");
 const query = require('micro-query')
@@ -28,14 +28,14 @@ export async function reply(context: HandlerContext) {
 
     return await send(context.response, context.code, data);
 }
-
+type Request = IncomingMessage & ({ session?: any})
 
 export interface HandlerContext {
     code: number;
     status: string;
     payload: object | null | undefined;
-    request: IncomingMessage,
-    response: ServerResponse,
+    request: Request;
+    response: ServerResponse;
     query: any;
     redirect: (url: string) => any;
     session: ({
@@ -67,6 +67,10 @@ function mixinHandlerContext(payload: any, code = 200, status = 'ok') {
     };
 }
 
+const session = require('micro-cookie-session');
+
+let sessionHandler;
+
 export const handler = (task: HandlerTask | any, ...middleware): RequestHandler => {
     const handlerTask = async (req: IncomingMessage, res: ServerResponse) => {
         const queryParams = query(req);
@@ -88,6 +92,15 @@ export const handler = (task: HandlerTask | any, ...middleware): RequestHandler 
         };
 
         try {
+            if (!sessionHandler) {
+                sessionHandler = session({
+                    name: 'session',
+                    keys: [setting('SESSION_SECRET')],
+                    maxAge: 24 * 60 * 60 * 1000
+                });
+            }
+
+            sessionHandler(req, res);
 
             for (let beforeTask of middleware) {
                 await Promise.resolve(beforeTask(req, res, context));

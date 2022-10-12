@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import {setting} from "..";
 
 export const authorized = (...roles: string[]) => async (req, res, context) => {
-    const token = getTokenFromHeader(req) || getTokenFromQuery(context.query);
+    const token = getTokenFromQuery(context.query) || getTokenFromHeader(req) || getTokenFromSession(req);
     try {
         context.session = jwt.verify(
             token,
@@ -25,6 +25,15 @@ export const authorized = (...roles: string[]) => async (req, res, context) => {
             payload: e.message
         };
     }
+}
+
+function getTokenFromSession(req) {
+    let session = req.session.token;
+    if (!session) {
+        return;
+    }
+
+    return session;
 }
 
 function getTokenFromHeader(req) {

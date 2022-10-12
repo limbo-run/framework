@@ -11,3 +11,6 @@ export const encode = (url, queryParams) => {
 
     return (`${url}${query ? '?' : ''}${queryString}`);
 };
+
+export const utf_to_b64 = (str) => btoa(unescape(encodeURIComponent(str)));
+export const b64_to_utf = (str) => decodeURIComponent(escape(atob(str)));
