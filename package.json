@@ -1,0 +1,31 @@
+{
+  "name": "@limbo.run/framework",
+  "version": "0.0.3",
+  "main": "index.js",
+  "scripts": {
+    "prepublish": "npm-run-all clean build",
+    "clean": "tsc --build --clean",
+    "build": "tsc --build"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/micro": "^7.3.7",
+    "@types/microrouter": "^3.1.2",
+    "@types/node": "^18.8.4",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "axios": "^1.1.2",
+    "console-log-colors": "^0.2.3",
+    "firebase": "^9.12.0",
+    "firebase-admin": "^11.1.0"
+  }
+}

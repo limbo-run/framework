@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "lib": ["esnext"],
+    "outDir": "./lib",
+    "strict": false,
+    "esModuleInterop": true,
+    "baseUrl": "./src",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["./node_modules", "./lib", "./test/rules/**/*", "./tools"]
+}
